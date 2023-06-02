@@ -1,3 +1,6 @@
+# apt-getでエラーが起きたので、最新にしておく
+RUN apt-get update
+
 # ベースイメージを指定
 FROM php:latest
 
