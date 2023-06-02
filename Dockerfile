@@ -18,18 +18,20 @@ RUN composer global require laravel/installer
 WORKDIR /var/www/html
 
 # OKR管理システムのソースコードをクローン
-RUN git clone https://github.com/yourusername/okr-management-system.git
+RUN git clone https://github.com/k-mana0615/okr_management_system.git
 
 # プロジェクトのディレクトリに移動
-WORKDIR /var/www/html/okr-management-system
+WORKDIR /var/www/html/okr_management_system
 
 # .envファイルの作成と設定
 COPY .env.example .env
 RUN php artisan key:generate
-RUN sed -i 's/DB_HOST=.*/DB_HOST=postgres/' .env
-RUN sed -i 's/DB_DATABASE=.*/DB_DATABASE=myapp/' .env
-RUN sed -i 's/DB_USERNAME=.*/DB_USERNAME=myappuser/' .env
-RUN sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=myapppassword/' .env
+
+# .envファイルのセンシティブな情報を環境変数で置換する
+ENV DB_HOST=postgres
+ENV DB_DATABASE=myapp
+ENV DB_USERNAME=myappuser
+ENV DB_PASSWORD=myapppassword
 
 # Composerパッケージのインストール
 RUN composer install --no-dev --optimize-autoloader
